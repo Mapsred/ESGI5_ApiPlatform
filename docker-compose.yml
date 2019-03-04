@@ -98,8 +98,8 @@ services:
     ports:
       - "8064:443" #Client
       - "8065:444" # Admin
-      - "8066:8443" # Api
-      - "8067:8444" # Api-Cached
+      - "8066:8066" # Api
+      - "8067:8067" # Api-Cached
 
 volumes:
   db-data: {}
