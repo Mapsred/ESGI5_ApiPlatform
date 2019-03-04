@@ -1,4 +1,4 @@
 import React from 'react';
-import { HydraAdmin } from '@api-platform/admin';
+import Admin  from './components/Admin';
 
-export default () => <HydraAdmin entrypoint={process.env.REACT_APP_API_ENTRYPOINT}/>;
+export default () => <Admin/>;
