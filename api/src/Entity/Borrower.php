@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\BorrowersRepository")
  */
-class Borrowers
+class Borrower
 {
     /**
      * @var int $id
@@ -83,7 +83,7 @@ class Borrowers
 
     /**
      * @param string $lastname
-     * @return Borrowers
+     * @return Borrower
      */
     public function setLastname(string $lastname): self
     {
@@ -102,7 +102,7 @@ class Borrowers
 
     /**
      * @param string $firstname
-     * @return Borrowers
+     * @return Borrower
      */
     public function setFirstname(string $firstname): self
     {
@@ -121,7 +121,7 @@ class Borrowers
 
     /**
      * @param string $phone
-     * @return Borrowers
+     * @return Borrower
      */
     public function setPhone(string $phone): self
     {
@@ -140,7 +140,7 @@ class Borrowers
 
     /**
      * @param string $email
-     * @return Borrowers
+     * @return Borrower
      */
     public function setEmail(string $email): self
     {
@@ -159,7 +159,7 @@ class Borrowers
 
     /**
      * @param string $address
-     * @return Borrowers
+     * @return Borrower
      */
     public function setAddress(string $address): self
     {
@@ -178,7 +178,7 @@ class Borrowers
 
     /**
      * @param Borrow $borrow
-     * @return Borrowers
+     * @return Borrower
      */
     public function addBorrow(Borrow $borrow): self
     {
@@ -192,7 +192,7 @@ class Borrowers
 
     /**
      * @param Borrow $borrow
-     * @return Borrowers
+     * @return Borrower
      */
     public function removeBorrow(Borrow $borrow): self
     {

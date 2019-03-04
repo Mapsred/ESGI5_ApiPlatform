@@ -34,7 +34,7 @@ class Borrow
     private $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Borrowers", inversedBy="borrows")
+     * @ORM\ManyToOne(targetEntity="Borrower", inversedBy="borrows")
      */
     private $borrower;
 
@@ -84,12 +84,12 @@ class Borrow
         return $this;
     }
 
-    public function getBorrower(): ?Borrowers
+    public function getBorrower(): ?Borrower
     {
         return $this->borrower;
     }
 
-    public function setBorrower(?Borrowers $borrower): self
+    public function setBorrower(?Borrower $borrower): self
     {
         $this->borrower = $borrower;
 
