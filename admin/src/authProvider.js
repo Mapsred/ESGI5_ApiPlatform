@@ -1,7 +1,7 @@
 import {AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_CHECK} from 'react-admin';
 
 // Change this to be your own login check route.
-const login_uri = process.env.REACT_APP_API_ENTRYPOINT + `/login_check`;
+const login_uri = `${process.env.REACT_APP_API_ENTRYPOINT}/login_check`;
 
 export default (type, params) => {
   switch (type) {
