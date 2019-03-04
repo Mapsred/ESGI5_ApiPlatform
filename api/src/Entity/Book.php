@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +50,20 @@ class Book
      * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="books")
      */
     private $author;
+
+    /**
+     * @var ArrayCollection $copyBooks
+     * @ORM\OneToMany(targetEntity="App\Entity\CopyBook", mappedBy="book")
+     */
+    private $copyBooks;
+
+    /**
+     * Book constructor.
+     */
+    public function __construct()
+    {
+        $this->copyBooks = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -148,6 +164,45 @@ class Book
     public function setAuthor(?Author $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CopyBook[]
+     */
+    public function getCopyBooks(): Collection
+    {
+        return $this->copyBooks;
+    }
+
+    /**
+     * @param CopyBook $copyBook
+     * @return Book
+     */
+    public function addCopyBook(CopyBook $copyBook): self
+    {
+        if (!$this->copyBooks->contains($copyBook)) {
+            $this->copyBooks[] = $copyBook;
+            $copyBook->setBook($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param CopyBook $copyBook
+     * @return Book
+     */
+    public function removeCopyBook(CopyBook $copyBook): self
+    {
+        if ($this->copyBooks->contains($copyBook)) {
+            $this->copyBooks->removeElement($copyBook);
+            // set the owning side to null (unless already changed)
+            if ($copyBook->getBook() === $this) {
+                $copyBook->setBook(null);
+            }
+        }
 
         return $this;
     }
