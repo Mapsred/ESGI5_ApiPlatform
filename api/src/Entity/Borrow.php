@@ -28,6 +28,7 @@ class Borrow
     /**
      * @ORM\Column(type="datetime")
      * @Assert\DateTime()
+     * @Assert\GreaterThan(propertyPath="borrowing_date")
      */
     private $return_date;
 
