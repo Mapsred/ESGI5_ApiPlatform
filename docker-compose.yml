@@ -1,0 +1,105 @@
+version: '3.4'
+
+services:
+  php:
+    image: ${CONTAINER_REGISTRY_BASE}/php
+    container_name: api_platform_php
+    build:
+      context: ./api
+      target: api_platform_php
+      cache_from:
+        - ${CONTAINER_REGISTRY_BASE}/php
+        - ${CONTAINER_REGISTRY_BASE}/nginx
+        - ${CONTAINER_REGISTRY_BASE}/varnish
+    depends_on:
+      - db
+    volumes:
+      - ./api:/srv/api:rw,cached
+      # If you develop on Linux, uncomment the following line to use a bind-mounted host directory instead
+      # - ./api/var:/srv/api/var:rw
+
+  api:
+    image: ${CONTAINER_REGISTRY_BASE}/nginx
+    container_name: api_platform_api
+    build:
+      context: ./api
+      target: api_platform_nginx
+      cache_from:
+        - ${CONTAINER_REGISTRY_BASE}/php
+        - ${CONTAINER_REGISTRY_BASE}/nginx
+        - ${CONTAINER_REGISTRY_BASE}/varnish
+    depends_on:
+      - php
+    volumes:
+      - ./api/public:/srv/api/public:ro
+
+  cache-proxy:
+    image: ${CONTAINER_REGISTRY_BASE}/varnish
+    container_name: api_platform_cache_proxy
+    build:
+      context: ./api
+      target: api_platform_varnish
+      cache_from:
+        - ${CONTAINER_REGISTRY_BASE}/php
+        - ${CONTAINER_REGISTRY_BASE}/nginx
+        - ${CONTAINER_REGISTRY_BASE}/varnish
+    depends_on:
+      - api
+    volumes:
+      - ./api/docker/varnish/conf:/usr/local/etc/varnish:ro
+    tmpfs:
+      - /usr/local/var/varnish:exec
+
+  db:
+    image: postgres:10-alpine
+    container_name: api_platform_db
+    environment:
+      - POSTGRES_DB=api
+      - POSTGRES_USER=api-platform
+      - POSTGRES_PASSWORD=!ChangeMe!
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+
+  client:
+    image: ${CONTAINER_REGISTRY_BASE}/client
+    container_name: api_platform_client
+    build:
+      context: ./client
+      cache_from:
+        - ${CONTAINER_REGISTRY_BASE}/client
+    env_file:
+      - ./client/.env
+    volumes:
+      - ./client:/usr/src/client:rw,cached
+
+  admin:
+    image: ${CONTAINER_REGISTRY_BASE}/admin
+    container_name: api_platform_admin
+    build:
+      context: ./admin
+      cache_from:
+        - ${CONTAINER_REGISTRY_BASE}/admin
+    volumes:
+      - ./admin:/usr/src/admin:rw,cached
+
+  h2-proxy:
+    container_name: api_platform_h2_proxy
+    build:
+      context: ./h2-proxy
+    depends_on:
+      - client
+      - admin
+      - api
+      - cache-proxy
+    ports:
+      - "8064:443" #Client
+      - "8065:444" # Admin
+      - "8066:8443" # Api
+      - "8067:8444" # Api-Cached
+
+volumes:
+  db-data: {}
