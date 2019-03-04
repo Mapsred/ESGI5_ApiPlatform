@@ -49,16 +49,26 @@ class Book
      */
     private $author;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getReference(): ?string
     {
         return $this->reference;
     }
 
+    /**
+     * @param string $reference
+     * @return Book
+     */
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
@@ -66,11 +76,18 @@ class Book
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return Book
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -78,11 +95,18 @@ class Book
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return Book
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -90,11 +114,18 @@ class Book
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getPublicationDate(): ?\DateTimeInterface
     {
         return $this->publication_date;
     }
 
+    /**
+     * @param \DateTimeInterface $publication_date
+     * @return Book
+     */
     public function setPublicationDate(\DateTimeInterface $publication_date): self
     {
         $this->publication_date = $publication_date;
@@ -102,11 +133,18 @@ class Book
         return $this;
     }
 
+    /**
+     * @return Author|null
+     */
     public function getAuthor(): ?Author
     {
         return $this->author;
     }
 
+    /**
+     * @param Author|null $author
+     * @return Book
+     */
     public function setAuthor(?Author $author): self
     {
         $this->author = $author;
