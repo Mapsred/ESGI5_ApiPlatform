@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -20,11 +21,13 @@ class Borrow
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
      */
     private $borrowind_date;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
      */
     private $return_date;
 
