@@ -133,18 +133,18 @@ class Book
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return \DateTime|null
      */
-    public function getPublicationDate(): ?\DateTimeInterface
+    public function getPublicationDate(): ?\DateTime
     {
         return $this->publication_date;
     }
 
     /**
-     * @param \DateTimeInterface $publication_date
+     * @param \DateTime $publication_date
      * @return Book
      */
-    public function setPublicationDate(\DateTimeInterface $publication_date): self
+    public function setPublicationDate(\DateTime $publication_date): self
     {
         $this->publication_date = $publication_date;
 

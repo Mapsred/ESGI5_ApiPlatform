@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -49,7 +48,7 @@ class Borrow
     private $borrower;
 
     /**
-     * @var ArrayCollection $copy_book
+     * @var CopyBook $copy_book
      * @ORM\ManyToOne(targetEntity="App\Entity\CopyBook", inversedBy="borrows")
      */
     private $copy_book;
@@ -63,18 +62,18 @@ class Borrow
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return \DateTime|null
      */
-    public function getBorrowindDate(): ?\DateTimeInterface
+    public function getBorrowindDate(): ?\DateTime
     {
         return $this->borrowind_date;
     }
 
     /**
-     * @param \DateTimeInterface $borrowind_date
+     * @param \DateTime $borrowind_date
      * @return Borrow
      */
-    public function setBorrowindDate(\DateTimeInterface $borrowind_date): self
+    public function setBorrowindDate(\DateTime $borrowind_date): self
     {
         $this->borrowind_date = $borrowind_date;
 
@@ -82,18 +81,18 @@ class Borrow
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return \DateTime|null
      */
-    public function getReturnDate(): ?\DateTimeInterface
+    public function getReturnDate(): ?\DateTime
     {
         return $this->return_date;
     }
 
     /**
-     * @param \DateTimeInterface $return_date
+     * @param \DateTime $return_date
      * @return Borrow
      */
-    public function setReturnDate(\DateTimeInterface $return_date): self
+    public function setReturnDate(\DateTime $return_date): self
     {
         $this->return_date = $return_date;
 
