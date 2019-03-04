@@ -3,13 +3,18 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"book_read"}},
+ *     denormalizationContext={"groups"={"book_write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
  */
 class Book
@@ -25,18 +30,21 @@ class Book
     /**
      * @var string $reference
      * @ORM\Column(type="string", length=255)
+     * @Groups({"book_read", "book_write"})
      */
     private $reference;
 
     /**
      * @var string $name
      * @ORM\Column(type="string", length=255)
+     * @Groups({"book_read", "book_write"})
      */
     private $name;
 
     /**
      * @var string $description
      * @ORM\Column(type="text")
+     * @Groups({"book_read", "book_write"})
      */
     private $description;
 
@@ -44,18 +52,22 @@ class Book
      * @var \DateTime $publication_date
      * @ORM\Column(type="datetime")
      * @Assert\DateTime()
+     * @Groups({"book_read", "book_write"})
      */
     private $publication_date;
 
     /**
      * @var Author $author
      * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="books")
+     * @ApiSubresource()
+     * @Groups({"book_read", "book_write"})
      */
     private $author;
 
     /**
      * @var ArrayCollection $copyBooks
      * @ORM\OneToMany(targetEntity="App\Entity\CopyBook", mappedBy="book")
+     * @Groups({"book_read"})
      */
     private $copyBooks;
 
