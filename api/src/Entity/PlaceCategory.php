@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass="App\Repository\PassengerPlaceCategoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PlaceCategoryRepository")
  */
-class PassengerPlaceCategory
+class PlaceCategory
 {
     /**
      * @ORM\Id()
@@ -27,6 +27,11 @@ class PassengerPlaceCategory
      * @ORM\Column(type="integer")
      */
     private $rank;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\AirplanePlace", inversedBy="placeCategory")
+     */
+    private $airplanePlace;
 
     public function getId(): ?int
     {
@@ -53,6 +58,18 @@ class PassengerPlaceCategory
     public function setRank(int $rank): self
     {
         $this->rank = $rank;
+
+        return $this;
+    }
+
+    public function getAirplanePlace(): ?AirplanePlace
+    {
+        return $this->airplanePlace;
+    }
+
+    public function setAirplanePlace(?AirplanePlace $airplanePlace): self
+    {
+        $this->airplanePlace = $airplanePlace;
 
         return $this;
     }

@@ -41,11 +41,17 @@ class Airplane
     private $airport;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AirplanePlace", mappedBy="airplane")
+     */
+    private $airplanePlaces;
+
+    /**
      * Airplane constructor.
      */
     public function __construct()
     {
         $this->staff = new ArrayCollection();
+        $this->airplanePlaces = new ArrayCollection();
     }
 
     /**
@@ -148,6 +154,37 @@ class Airplane
     public function setAirport(?Airport $airport): self
     {
         $this->airport = $airport;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AirplanePlace[]
+     */
+    public function getAirplanePlaces(): Collection
+    {
+        return $this->airplanePlaces;
+    }
+
+    public function addAirplanePlace(AirplanePlace $airplanePlace): self
+    {
+        if (!$this->airplanePlaces->contains($airplanePlace)) {
+            $this->airplanePlaces[] = $airplanePlace;
+            $airplanePlace->setAirplane($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAirplanePlace(AirplanePlace $airplanePlace): self
+    {
+        if ($this->airplanePlaces->contains($airplanePlace)) {
+            $this->airplanePlaces->removeElement($airplanePlace);
+            // set the owning side to null (unless already changed)
+            if ($airplanePlace->getAirplane() === $this) {
+                $airplanePlace->setAirplane(null);
+            }
+        }
 
         return $this;
     }

@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\PassengerPlaceCategory;
+use App\Entity\PlaceCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method PassengerPlaceCategory|null find($id, $lockMode = null, $lockVersion = null)
- * @method PassengerPlaceCategory|null findOneBy(array $criteria, array $orderBy = null)
- * @method PassengerPlaceCategory[]    findAll()
- * @method PassengerPlaceCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PlaceCategory|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PlaceCategory|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PlaceCategory[]    findAll()
+ * @method PlaceCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PassengerPlaceCategoryRepository extends ServiceEntityRepository
+class PlaceCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, PassengerPlaceCategory::class);
+        parent::__construct($registry, PlaceCategory::class);
     }
 
     // /**
-    //  * @return PassengerPlaceCategory[] Returns an array of PassengerPlaceCategory objects
+    //  * @return PlaceCategory[] Returns an array of PlaceCategory objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PassengerPlaceCategoryRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PassengerPlaceCategory
+    public function findOneBySomeField($value): ?PlaceCategory
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
