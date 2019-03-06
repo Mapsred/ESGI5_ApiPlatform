@@ -31,7 +31,7 @@ class AirStrip
     private $planes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="airstrip")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="airstrips")
      */
     private $airport;
 
