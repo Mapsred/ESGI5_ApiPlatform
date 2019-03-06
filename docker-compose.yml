@@ -75,6 +75,7 @@ services:
       - ./client/.env
     volumes:
       - ./client:/usr/src/client:rw,cached
+      - /usr/src/client/node_modules
 
   admin:
     image: ${CONTAINER_REGISTRY_BASE}/admin
@@ -85,6 +86,7 @@ services:
         - ${CONTAINER_REGISTRY_BASE}/admin
     volumes:
       - ./admin:/usr/src/admin:rw,cached
+      - /usr/src/admin/node_modules
 
   h2-proxy:
     container_name: api_platform_h2_proxy
