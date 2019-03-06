@@ -33,6 +33,11 @@ class Flight
      */
     private $date;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Airplane", inversedBy="flights")
+     */
+    private $airplane;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class Flight
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getAirplane(): ?Airplane
+    {
+        return $this->airplane;
+    }
+
+    public function setAirplane(?Airplane $airplane): self
+    {
+        $this->airplane = $airplane;
 
         return $this;
     }
