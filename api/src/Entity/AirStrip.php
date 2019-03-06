@@ -35,21 +35,34 @@ class AirStrip
      */
     private $airport;
 
+    /**
+     * AirStrip constructor.
+     */
     public function __construct()
     {
         $this->airplanes = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
+    /**
+     * @param string $label
+     * @return AirStrip
+     */
     public function setLabel(string $label): self
     {
         $this->label = $label;
@@ -65,6 +78,10 @@ class AirStrip
         return $this->airplanes;
     }
 
+    /**
+     * @param Airplane $plane
+     * @return AirStrip
+     */
     public function addPlane(Airplane $plane): self
     {
         if (!$this->airplanes->contains($plane)) {
@@ -75,6 +92,10 @@ class AirStrip
         return $this;
     }
 
+    /**
+     * @param Airplane $plane
+     * @return AirStrip
+     */
     public function removePlane(Airplane $plane): self
     {
         if ($this->airplanes->contains($plane)) {
@@ -88,11 +109,18 @@ class AirStrip
         return $this;
     }
 
+    /**
+     * @return Airport|null
+     */
     public function getAirport(): ?Airport
     {
         return $this->airport;
     }
 
+    /**
+     * @param Airport|null $airport
+     * @return AirStrip
+     */
     public function setAirport(?Airport $airport): self
     {
         $this->airport = $airport;

@@ -28,16 +28,26 @@ class Pilot
      */
     private $plane;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return Pilot
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -45,11 +55,18 @@ class Pilot
         return $this;
     }
 
+    /**
+     * @return Airplane|null
+     */
     public function getPlane(): ?Airplane
     {
         return $this->plane;
     }
 
+    /**
+     * @param Airplane|null $plane
+     * @return Pilot
+     */
     public function setPlane(?Airplane $plane): self
     {
         $this->plane = $plane;

@@ -23,16 +23,26 @@ class Staff
      */
     private $airplane;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Airplane|null
+     */
     public function getAirplane(): ?Airplane
     {
         return $this->airplane;
     }
 
+    /**
+     * @param Airplane|null $airplane
+     * @return Staff
+     */
     public function setAirplane(?Airplane $airplane): self
     {
         $this->airplane = $airplane;

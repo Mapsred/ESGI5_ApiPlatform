@@ -30,21 +30,34 @@ class Company
      */
     private $airplanes;
 
+    /**
+     * Company constructor.
+     */
     public function __construct()
     {
         $this->airplanes = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return Company
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -60,6 +73,10 @@ class Company
         return $this->airplanes;
     }
 
+    /**
+     * @param Airplane $plane
+     * @return Company
+     */
     public function addPlane(Airplane $plane): self
     {
         if (!$this->airplanes->contains($plane)) {
@@ -70,6 +87,10 @@ class Company
         return $this;
     }
 
+    /**
+     * @param Airplane $plane
+     * @return Company
+     */
     public function removePlane(Airplane $plane): self
     {
         if ($this->airplanes->contains($plane)) {

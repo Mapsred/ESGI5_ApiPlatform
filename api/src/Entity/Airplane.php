@@ -40,21 +40,34 @@ class Airplane
      */
     private $airport;
 
+    /**
+     * Airplane constructor.
+     */
     public function __construct()
     {
         $this->staff = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Company|null
+     */
     public function getCompany(): ?Company
     {
         return $this->company;
     }
 
+    /**
+     * @param Company|null $company
+     * @return Airplane
+     */
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
@@ -62,11 +75,18 @@ class Airplane
         return $this;
     }
 
+    /**
+     * @return AirStrip|null
+     */
     public function getAirstrip(): ?AirStrip
     {
         return $this->airstrip;
     }
 
+    /**
+     * @param AirStrip|null $airstrip
+     * @return Airplane
+     */
     public function setAirstrip(?AirStrip $airstrip): self
     {
         $this->airstrip = $airstrip;
@@ -82,6 +102,10 @@ class Airplane
         return $this->staff;
     }
 
+    /**
+     * @param Staff $staff
+     * @return Airplane
+     */
     public function addStaff(Staff $staff): self
     {
         if (!$this->staff->contains($staff)) {
@@ -92,6 +116,10 @@ class Airplane
         return $this;
     }
 
+    /**
+     * @param Staff $staff
+     * @return Airplane
+     */
     public function removeStaff(Staff $staff): self
     {
         if ($this->staff->contains($staff)) {
@@ -105,11 +133,18 @@ class Airplane
         return $this;
     }
 
+    /**
+     * @return Airport|null
+     */
     public function getAirport(): ?Airport
     {
         return $this->airport;
     }
 
+    /**
+     * @param Airport|null $airport
+     * @return Airplane
+     */
     public function setAirport(?Airport $airport): self
     {
         $this->airport = $airport;

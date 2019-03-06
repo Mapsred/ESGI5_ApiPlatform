@@ -43,16 +43,26 @@ class Passenger
      */
     private $address;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getGender(): ?string
     {
         return $this->gender;
     }
 
+    /**
+     * @param string $gender
+     * @return Passenger
+     */
     public function setGender(string $gender): self
     {
         $this->gender = $gender;
@@ -60,11 +70,18 @@ class Passenger
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
+    /**
+     * @param string $firstname
+     * @return Passenger
+     */
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
@@ -72,11 +89,18 @@ class Passenger
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
+    /**
+     * @param string $lastname
+     * @return Passenger
+     */
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
@@ -84,11 +108,18 @@ class Passenger
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getAge(): ?int
     {
         return $this->age;
     }
 
+    /**
+     * @param int $age
+     * @return Passenger
+     */
     public function setAge(int $age): self
     {
         $this->age = $age;
@@ -96,11 +127,18 @@ class Passenger
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAddress(): ?string
     {
         return $this->address;
     }
 
+    /**
+     * @param string $address
+     * @return Passenger
+     */
     public function setAddress(string $address): self
     {
         $this->address = $address;

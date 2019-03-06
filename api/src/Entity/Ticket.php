@@ -23,16 +23,26 @@ class Ticket
      */
     private $price;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return int|null
+     */
     public function getPrice(): ?int
     {
         return $this->price;
     }
 
+    /**
+     * @param int $price
+     * @return Ticket
+     */
     public function setPrice(int $price): self
     {
         $this->price = $price;
