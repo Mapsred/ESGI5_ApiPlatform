@@ -18,6 +18,8 @@
     },
     "require-dev": {
         "api-platform/schema-generator": "^2.1",
+        "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "fzaninotto/faker": "^1.8",
         "symfony/profiler-pack": "^1.0"
     },
     "config": {
