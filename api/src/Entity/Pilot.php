@@ -26,7 +26,7 @@ class Pilot
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Airplane", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Airplane", cascade={"persist", "remove"}, mappedBy="pilot")
      */
     private $plane;
 

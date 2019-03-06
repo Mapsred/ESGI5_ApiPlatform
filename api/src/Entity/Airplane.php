@@ -46,6 +46,11 @@ class Airplane
     private $airplanePlaces;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Pilot", cascade={"persist", "remove"}, inversedBy="plane")
+     */
+    private $pilot;
+
+    /**
      * Airplane constructor.
      */
     public function __construct()
@@ -185,6 +190,25 @@ class Airplane
                 $airplanePlace->setAirplane(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Pilot
+     */
+    public function getPilot():? Pilot
+    {
+        return $this->pilot;
+    }
+
+    /**
+     * @param Pilot $pilot
+     * @return Airplane
+     */
+    public function setPilot(?Pilot $pilot): Airplane
+    {
+        $this->pilot = $pilot;
 
         return $this;
     }
