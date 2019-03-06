@@ -40,10 +40,6 @@ class Airplane
      */
     private $airport;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\AirplanePlace", mappedBy="airplane")
-     */
-    private $airplanePlaces;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Pilot", cascade={"persist", "remove"}, inversedBy="plane")
@@ -56,12 +52,16 @@ class Airplane
     private $flights;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\AirplaneModel", inversedBy="airplanes")
+     */
+    private $airplaneModel;
+
+    /**
      * Airplane constructor.
      */
     public function __construct()
     {
         $this->staff = new ArrayCollection();
-        $this->airplanePlaces = new ArrayCollection();
         $this->flights = new ArrayCollection();
     }
 
@@ -170,37 +170,6 @@ class Airplane
     }
 
     /**
-     * @return Collection|AirplanePlace[]
-     */
-    public function getAirplanePlaces(): Collection
-    {
-        return $this->airplanePlaces;
-    }
-
-    public function addAirplanePlace(AirplanePlace $airplanePlace): self
-    {
-        if (!$this->airplanePlaces->contains($airplanePlace)) {
-            $this->airplanePlaces[] = $airplanePlace;
-            $airplanePlace->setAirplane($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAirplanePlace(AirplanePlace $airplanePlace): self
-    {
-        if ($this->airplanePlaces->contains($airplanePlace)) {
-            $this->airplanePlaces->removeElement($airplanePlace);
-            // set the owning side to null (unless already changed)
-            if ($airplanePlace->getAirplane() === $this) {
-                $airplanePlace->setAirplane(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Pilot
      */
     public function getPilot():? Pilot
@@ -246,6 +215,18 @@ class Airplane
                 $flight->setAirplane(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAirplaneModel(): ?AirplaneModel
+    {
+        return $this->airplaneModel;
+    }
+
+    public function setAirplaneModel(?AirplaneModel $airplaneModel): self
+    {
+        $this->airplaneModel = $airplaneModel;
 
         return $this;
     }

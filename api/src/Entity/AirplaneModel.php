@@ -40,9 +40,15 @@ class AirplaneModel
      */
     private $airplaneModelPlaceCategories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Airplane", mappedBy="airplaneModel")
+     */
+    private $airplanes;
+
     public function __construct()
     {
         $this->airplaneModelPlaceCategories = new ArrayCollection();
+        $this->airplanes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,6 +117,37 @@ class AirplaneModel
             // set the owning side to null (unless already changed)
             if ($airplaneModelPlaceCategory->getAirplaneModel() === $this) {
                 $airplaneModelPlaceCategory->setAirplaneModel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Airplane[]
+     */
+    public function getAirplanes(): Collection
+    {
+        return $this->airplanes;
+    }
+
+    public function addAirplane(Airplane $airplane): self
+    {
+        if (!$this->airplanes->contains($airplane)) {
+            $this->airplanes[] = $airplane;
+            $airplane->setAirplaneModel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAirplane(Airplane $airplane): self
+    {
+        if ($this->airplanes->contains($airplane)) {
+            $this->airplanes->removeElement($airplane);
+            // set the owning side to null (unless already changed)
+            if ($airplane->getAirplaneModel() === $this) {
+                $airplane->setAirplaneModel(null);
             }
         }
 

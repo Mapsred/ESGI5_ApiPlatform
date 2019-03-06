@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,12 +33,27 @@ class Flight
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date;
+    private $arrival_date;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Airplane", inversedBy="flights")
      */
     private $airplane;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AirplanePlace", mappedBy="flight")
+     */
+    private $airplanePlaces;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $departure_date;
+
+    public function __construct()
+    {
+        $this->airplanePlaces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -67,14 +84,14 @@ class Flight
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getArrivalDate(): ?\DateTime
     {
-        return $this->date;
+        return $this->arrival_date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setArrivalDate(\DateTime $arrival_date): self
     {
-        $this->date = $date;
+        $this->arrival_date = $arrival_date;
 
         return $this;
     }
@@ -90,4 +107,48 @@ class Flight
 
         return $this;
     }
+
+    /**
+     * @return Collection|AirplanePlace[]
+     */
+    public function getAirplanePlaces(): Collection
+    {
+        return $this->airplanePlaces;
+    }
+
+    public function addAirplanePlace(AirplanePlace $airplanePlace): self
+    {
+        if (!$this->airplanePlaces->contains($airplanePlace)) {
+            $this->airplanePlaces[] = $airplanePlace;
+            $airplanePlace->setFlight($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAirplanePlace(AirplanePlace $airplanePlace): self
+    {
+        if ($this->airplanePlaces->contains($airplanePlace)) {
+            $this->airplanePlaces->removeElement($airplanePlace);
+            // set the owning side to null (unless already changed)
+            if ($airplanePlace->getFlight() === $this) {
+                $airplanePlace->setFlight(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDepartureDate(): ?\DateTime
+    {
+        return $this->departure_date;
+    }
+
+    public function setDepartureDate(\DateTime $departure_date): self
+    {
+        $this->departure_date = $departure_date;
+
+        return $this;
+    }
+
 }

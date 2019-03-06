@@ -22,9 +22,9 @@ class AirplanePlace
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Airplane", inversedBy="airplanePlaces")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Flight", inversedBy="airplanePlaces")
      */
-    private $airplane;
+    private $flight;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlaceCategory", inversedBy="airplanePlaces")
@@ -35,10 +35,6 @@ class AirplanePlace
      * @ORM\OneToOne(targetEntity="App\Entity\Ticket", cascade={"persist", "remove"}, inversedBy="airplanePlace")
      */
     private $ticket;
-
-    public function __construct()
-    {
-    }
 
     public function getId(): ?int
     {
@@ -57,14 +53,14 @@ class AirplanePlace
         return $this;
     }
 
-    public function getAirplane(): ?Airplane
+    public function getFlight(): ?Flight
     {
-        return $this->airplane;
+        return $this->flight;
     }
 
-    public function setAirplane(?Airplane $airplane): self
+    public function setFlight(?Flight $flight): self
     {
-        $this->airplane = $airplane;
+        $this->flight = $flight;
 
         return $this;
     }
