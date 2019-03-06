@@ -31,6 +31,11 @@ class AirplanePlace
      */
     private $placeCategory;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Ticket", cascade={"persist", "remove"}, inversedBy="airplanePlace")
+     */
+    private $ticket;
+
     public function __construct()
     {
     }
@@ -72,6 +77,18 @@ class AirplanePlace
     public function setPlaceCategory(?PlaceCategory $placeCategory): self
     {
         $this->placeCategory = $placeCategory;
+
+        return $this;
+    }
+
+    public function getTicket(): ?Ticket
+    {
+        return $this->ticket;
+    }
+
+    public function setTicket(?Ticket $ticket): self
+    {
+        $this->ticket = $ticket;
 
         return $this;
     }

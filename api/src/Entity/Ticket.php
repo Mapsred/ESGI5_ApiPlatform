@@ -31,6 +31,11 @@ class Ticket
     private $passenger;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\AirplanePlace", cascade={"persist", "remove"}, mappedBy="ticket")
+     */
+    private $airplanePlace;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -66,6 +71,24 @@ class Ticket
     {
         $this->passenger = $passenger;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAirplanePlace() :?AirplanePlace
+    {
+        return $this->airplanePlace;
+    }
+
+    /**
+     * @param mixed $airplanePlace
+     * @return Ticket
+     */
+    public function setAirplanePlace(?AirplanePlace $airplanePlace)
+    {
+        $this->airplanePlace = $airplanePlace;
         return $this;
     }
 }
