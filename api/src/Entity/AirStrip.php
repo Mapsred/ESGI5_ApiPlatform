@@ -33,7 +33,7 @@ class AirStrip
     private $airport;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Airplane", mappedBy="airstrip", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Airplane", inversedBy="airstrip", cascade={"persist", "remove"})
      */
     private $airplane;
 
@@ -91,12 +91,6 @@ class AirStrip
     public function setAirplane(?Airplane $airplane): self
     {
         $this->airplane = $airplane;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newAirstrip = $airplane === null ? null : $this;
-        if ($newAirstrip !== $airplane->getAirstrip()) {
-            $airplane->setAirstrip($newAirstrip);
-        }
 
         return $this;
     }

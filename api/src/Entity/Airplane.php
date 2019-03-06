@@ -6,10 +6,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"airplane_read"}},
+ *     denormalizationContext={"groups"={"airplane_write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PlaneRepository")
  */
 class Airplane
@@ -23,36 +27,46 @@ class Airplane
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="airplanes")
+     * @Assert\NotNull()
+     * @Groups({"airplane_write", "airplane_read"})
      */
     private $company;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Staff", mappedBy="airplane")
+     * @Groups({"airplane_read"})
      */
     private $staff;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="airplanes")
+     * @Groups({"airplane_write", "airplane_read"})
+     * @Assert\NotNull()
      */
     private $airport;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Pilot", cascade={"persist", "remove"}, inversedBy="plane")
+     * @Groups({"airplane_read"})
      */
     private $pilot;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="airplane")
+     * @Groups({"airplane_read"})
      */
     private $flights;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AirplaneModel", inversedBy="airplanes")
+     * @Groups({"airplane_write", "airplane_read"})
+     * @Assert\NotNull()
      */
     private $airplaneModel;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\AirStrip", inversedBy="airplane", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\AirStrip", mappedBy="airplane", cascade={"persist", "remove"})
+     * @Groups({"airplane_read"})
      * @Assert\NotNull(message="No Airstrip available in this Airport")
      */
     private $airstrip;
@@ -221,6 +235,12 @@ class Airplane
     public function setAirstrip(?AirStrip $airstrip): self
     {
         $this->airstrip = $airstrip;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newAirplane = $airstrip === null ? null: $this;
+        if ($newAirplane !== $airstrip->getAirplane()) {
+            $airstrip->setAirplane($newAirplane);
+        }
 
         return $this;
     }
