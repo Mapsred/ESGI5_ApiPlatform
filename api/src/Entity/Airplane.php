@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -26,11 +27,6 @@ class Airplane
     private $company;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\AirStrip", inversedBy="airplanes")
-     */
-    private $airstrip;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Staff", mappedBy="airplane")
      */
     private $staff;
@@ -39,7 +35,6 @@ class Airplane
      * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="airplanes")
      */
     private $airport;
-
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Pilot", cascade={"persist", "remove"}, inversedBy="plane")
@@ -55,6 +50,12 @@ class Airplane
      * @ORM\ManyToOne(targetEntity="App\Entity\AirplaneModel", inversedBy="airplanes")
      */
     private $airplaneModel;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\AirStrip", inversedBy="airplane", cascade={"persist", "remove"})
+     * @Assert\NotNull(message="No Airstrip available in this Airport")
+     */
+    private $airstrip;
 
     /**
      * Airplane constructor.
@@ -88,25 +89,6 @@ class Airplane
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
-
-        return $this;
-    }
-
-    /**
-     * @return AirStrip|null
-     */
-    public function getAirstrip(): ?AirStrip
-    {
-        return $this->airstrip;
-    }
-
-    /**
-     * @param AirStrip|null $airstrip
-     * @return Airplane
-     */
-    public function setAirstrip(?AirStrip $airstrip): self
-    {
-        $this->airstrip = $airstrip;
 
         return $this;
     }
@@ -227,6 +209,18 @@ class Airplane
     public function setAirplaneModel(?AirplaneModel $airplaneModel): self
     {
         $this->airplaneModel = $airplaneModel;
+
+        return $this;
+    }
+
+    public function getAirstrip(): ?AirStrip
+    {
+        return $this->airstrip;
+    }
+
+    public function setAirstrip(?AirStrip $airstrip): self
+    {
+        $this->airstrip = $airstrip;
 
         return $this;
     }

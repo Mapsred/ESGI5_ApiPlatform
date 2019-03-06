@@ -28,22 +28,14 @@ class AirStrip
     private $label;
 
     /**
-     * @ORM\OneToMany(targetEntity="Airplane", mappedBy="airstrip")
-     */
-    private $airplanes;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="airstrips")
      */
     private $airport;
 
     /**
-     * AirStrip constructor.
+     * @ORM\OneToOne(targetEntity="App\Entity\Airplane", mappedBy="airstrip", cascade={"persist", "remove"})
      */
-    public function __construct()
-    {
-        $this->airplanes = new ArrayCollection();
-    }
+    private $airplane;
 
     /**
      * @return int|null
@@ -73,45 +65,6 @@ class AirStrip
     }
 
     /**
-     * @return Collection|Airplane[]
-     */
-    public function getAirplanes(): Collection
-    {
-        return $this->airplanes;
-    }
-
-    /**
-     * @param Airplane $plane
-     * @return AirStrip
-     */
-    public function addPlane(Airplane $plane): self
-    {
-        if (!$this->airplanes->contains($plane)) {
-            $this->airplanes[] = $plane;
-            $plane->setAirstrip($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Airplane $plane
-     * @return AirStrip
-     */
-    public function removePlane(Airplane $plane): self
-    {
-        if ($this->airplanes->contains($plane)) {
-            $this->airplanes->removeElement($plane);
-            // set the owning side to null (unless already changed)
-            if ($plane->getAirstrip() === $this) {
-                $plane->setAirstrip(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Airport|null
      */
     public function getAirport(): ?Airport
@@ -126,6 +79,24 @@ class AirStrip
     public function setAirport(?Airport $airport): self
     {
         $this->airport = $airport;
+
+        return $this;
+    }
+
+    public function getAirplane(): ?Airplane
+    {
+        return $this->airplane;
+    }
+
+    public function setAirplane(?Airplane $airplane): self
+    {
+        $this->airplane = $airplane;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newAirstrip = $airplane === null ? null : $this;
+        if ($newAirstrip !== $airplane->getAirstrip()) {
+            $airplane->setAirstrip($newAirstrip);
+        }
 
         return $this;
     }
