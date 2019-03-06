@@ -104,6 +104,9 @@
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
+    "gesdinet/jwt-refresh-token-bundle": {
+        "version": "v0.5.4"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.3.0"
     },
