@@ -23,20 +23,21 @@ class Author
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"author_read"})
      */
     private $id;
 
     /**
      * @var string $lastname
      * @ORM\Column(type="string", length=255)
-     * @Groups({"book_read", "author_write", "author_read"})
+     * @Groups({"author_read", "author_write" ,"book_read", "author_read"})
      */
     private $lastname;
 
     /**
      * @var string $firstname
      * @ORM\Column(type="string", length=255)
-     * @Groups({"book_read"})
+     * @Groups({"author_read", "author_write" ,"book_read"})
      */
     private $firstname;
 
@@ -44,7 +45,7 @@ class Author
      * @var int $age
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="2")
-     * @Groups({"book_read"})
+     * @Groups({"author_read", "author_write" ,"book_read"})
      */
     private $age;
 
