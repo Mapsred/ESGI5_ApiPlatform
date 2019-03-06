@@ -14,7 +14,7 @@ class AirStripFixtures extends Fixture implements OrderedFixtureInterface
     {
         $airports = $manager->getRepository(Airport::class)->findAll();
         foreach ($airports as $airport) {
-            for ($i = 0; $i > rand(1, 5); $i++) {
+            for ($i = 0; $i < rand(1, 5); $i++) {
                 $airstrip = new AirStrip();
                 $airstrip
                     ->setAirport($airport)

@@ -13,7 +13,7 @@ class AirportFixtures extends Fixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        for ($i = 0; $i > 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $airport = new Airport();
             $airport
                 ->setName($faker->name)
