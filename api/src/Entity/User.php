@@ -5,9 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"user_read"}},
+ *     denormalizationContext={"groups"={"user_write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
@@ -21,12 +25,8 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(name="enabled", type="boolean", options={"default" : true})
-     */
-    private $enabled = true;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user_write", "user_read"})
      */
     private $username;
 
@@ -39,6 +39,7 @@ class User implements UserInterface
      * A non-persisted field that's used to create the encoded password.
      *
      * @var string $plainPassword
+     * @Groups({"user_write"})
      */
     private $plainPassword;
 
@@ -48,24 +49,6 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
-    }
-    /**
-     * @return bool
-     */
-    public function isEnabled(): bool
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * @param bool $enabled
-     * @return User
-     */
-    public function setEnabled(bool $enabled): self
-    {
-        $this->enabled = $enabled;
-
-        return $this;
     }
 
     /**
