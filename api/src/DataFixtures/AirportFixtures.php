@@ -4,10 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Airport;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 
-class AirportFixtures extends Fixture
+class AirportFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -22,5 +23,15 @@ class AirportFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    /**
+     * Get the order of this fixture
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 1;
     }
 }

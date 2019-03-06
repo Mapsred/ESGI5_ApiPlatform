@@ -5,9 +5,10 @@ namespace App\DataFixtures;
 use App\Entity\Airport;
 use App\Entity\AirStrip;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class AirStripFixtures extends Fixture
+class AirStripFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -24,5 +25,15 @@ class AirStripFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    /**
+     * Get the order of this fixture
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 2;
     }
 }
