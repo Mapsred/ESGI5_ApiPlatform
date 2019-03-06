@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Airplane;
 use App\Entity\AirStrip;
+use App\Utils\AirplaneBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +18,15 @@ class AirplaneSubscriber implements EventSubscriberInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    /**
+     * @var AirplaneBuilder $airplaneBuilder
+     */
+    private $airplaneBuilder;
+
+    public function __construct(EntityManagerInterface $entityManager, AirplaneBuilder $airplaneBuilder)
     {
         $this->entityManager = $entityManager;
+        $this->airplaneBuilder = $airplaneBuilder;
     }
 
     public function preValidate(GetResponseForControllerResultEvent $event)
@@ -43,7 +50,8 @@ class AirplaneSubscriber implements EventSubscriberInterface
         $entity = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
         if ($entity instanceof Airplane && $method === Request::METHOD_POST) {
-            // TODO Generate Staff / Pilot / Tickets / ...
+            // Generate Staff and Pilot
+            $this->airplaneBuilder->build($entity);
         }
     }
 

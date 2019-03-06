@@ -46,7 +46,7 @@ class Airplane
     private $airport;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Pilot", cascade={"persist", "remove"}, inversedBy="plane")
+     * @ORM\OneToOne(targetEntity="App\Entity\Pilot", cascade={"persist", "remove"}, inversedBy="airplane")
      * @Groups({"airplane_read"})
      */
     private $pilot;

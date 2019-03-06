@@ -28,7 +28,7 @@ class Pilot
     /**
      * @ORM\OneToOne(targetEntity="Airplane", cascade={"persist", "remove"}, mappedBy="pilot")
      */
-    private $plane;
+    private $airplane;
 
     /**
      * @return int|null
@@ -60,18 +60,18 @@ class Pilot
     /**
      * @return Airplane|null
      */
-    public function getPlane(): ?Airplane
+    public function getAirplane(): ?Airplane
     {
-        return $this->plane;
+        return $this->airplane;
     }
 
     /**
-     * @param Airplane|null $plane
+     * @param Airplane|null $airplane
      * @return Pilot
      */
-    public function setPlane(?Airplane $plane): self
+    public function setAirplane(?Airplane $airplane): self
     {
-        $this->plane = $plane;
+        $this->airplane = $airplane;
 
         return $this;
     }
