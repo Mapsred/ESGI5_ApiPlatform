@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,16 @@ class AirplaneModel
      * @ORM\Column(type="integer")
      */
     private $height;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AirplaneModelPlaceCategory", mappedBy="airplaneModel")
+     */
+    private $airplaneModelPlaceCategories;
+
+    public function __construct()
+    {
+        $this->airplaneModelPlaceCategories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,6 +82,37 @@ class AirplaneModel
     public function setHeight(int $height): self
     {
         $this->height = $height;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AirplaneModelPlaceCategory[]
+     */
+    public function getAirplaneModelPlaceCategories(): Collection
+    {
+        return $this->airplaneModelPlaceCategories;
+    }
+
+    public function addAirplaneModelPlaceCategory(AirplaneModelPlaceCategory $airplaneModelPlaceCategory): self
+    {
+        if (!$this->airplaneModelPlaceCategories->contains($airplaneModelPlaceCategory)) {
+            $this->airplaneModelPlaceCategories[] = $airplaneModelPlaceCategory;
+            $airplaneModelPlaceCategory->setAirplaneModel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAirplaneModelPlaceCategory(AirplaneModelPlaceCategory $airplaneModelPlaceCategory): self
+    {
+        if ($this->airplaneModelPlaceCategories->contains($airplaneModelPlaceCategory)) {
+            $this->airplaneModelPlaceCategories->removeElement($airplaneModelPlaceCategory);
+            // set the owning side to null (unless already changed)
+            if ($airplaneModelPlaceCategory->getAirplaneModel() === $this) {
+                $airplaneModelPlaceCategory->setAirplaneModel(null);
+            }
+        }
 
         return $this;
     }
