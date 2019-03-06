@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,13 +27,12 @@ class AirplanePlace
     private $airplane;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PlaceCategory", mappedBy="airplanePlace")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PlaceCategory", inversedBy="airplanePlaces")
      */
     private $placeCategory;
 
     public function __construct()
     {
-        $this->placeCategory = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,33 +64,14 @@ class AirplanePlace
         return $this;
     }
 
-    /**
-     * @return Collection|PlaceCategory[]
-     */
-    public function getPlaceCategory(): Collection
+    public function getPlaceCategory(): ?PlaceCategory
     {
         return $this->placeCategory;
     }
 
-    public function addPlaceCategory(PlaceCategory $placeCategory): self
+    public function setPlaceCategory(?PlaceCategory $placeCategory): self
     {
-        if (!$this->placeCategory->contains($placeCategory)) {
-            $this->placeCategory[] = $placeCategory;
-            $placeCategory->setAirplanePlace($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlaceCategory(PlaceCategory $placeCategory): self
-    {
-        if ($this->placeCategory->contains($placeCategory)) {
-            $this->placeCategory->removeElement($placeCategory);
-            // set the owning side to null (unless already changed)
-            if ($placeCategory->getAirplanePlace() === $this) {
-                $placeCategory->setAirplanePlace(null);
-            }
-        }
+        $this->placeCategory = $placeCategory;
 
         return $this;
     }

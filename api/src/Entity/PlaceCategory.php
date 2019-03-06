@@ -31,18 +31,19 @@ class PlaceCategory
     private $rank;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\AirplanePlace", inversedBy="placeCategory")
-     */
-    private $airplanePlace;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\AirplaneModelPlaceCategory", mappedBy="placeCategory")
      */
     private $airplaneModelPlaceCategories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AirplanePlace", mappedBy="placeCategory")
+     */
+    private $airplanePlaces;
+
     public function __construct()
     {
         $this->airplaneModelPlaceCategories = new ArrayCollection();
+        $this->airplanePlaces = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,18 +75,6 @@ class PlaceCategory
         return $this;
     }
 
-    public function getAirplanePlace(): ?AirplanePlace
-    {
-        return $this->airplanePlace;
-    }
-
-    public function setAirplanePlace(?AirplanePlace $airplanePlace): self
-    {
-        $this->airplanePlace = $airplanePlace;
-
-        return $this;
-    }
-
     /**
      * @return Collection|AirplaneModelPlaceCategory[]
      */
@@ -111,6 +100,37 @@ class PlaceCategory
             // set the owning side to null (unless already changed)
             if ($airplaneModelPlaceCategory->getPlaceCategory() === $this) {
                 $airplaneModelPlaceCategory->setPlaceCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AirplanePlace[]
+     */
+    public function getAirplanePlaces(): Collection
+    {
+        return $this->airplanePlaces;
+    }
+
+    public function addAirplanePlace(AirplanePlace $airplanePlace): self
+    {
+        if (!$this->airplanePlaces->contains($airplanePlace)) {
+            $this->airplanePlaces[] = $airplanePlace;
+            $airplanePlace->setPlaceCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAirplanePlace(AirplanePlace $airplanePlace): self
+    {
+        if ($this->airplanePlaces->contains($airplanePlace)) {
+            $this->airplanePlaces->removeElement($airplanePlace);
+            // set the owning side to null (unless already changed)
+            if ($airplanePlace->getPlaceCategory() === $this) {
+                $airplanePlace->setPlaceCategory(null);
             }
         }
 
