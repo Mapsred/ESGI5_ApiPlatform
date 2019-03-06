@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass="App\Repository\PassengerSlotRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PassengerPlaceRepository")
  */
-class PassengerSlot
+class PassengerPlace
 {
     /**
      * @ORM\Id()

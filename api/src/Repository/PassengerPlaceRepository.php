@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\PassengerSlot;
+use App\Entity\PassengerPlace;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method PassengerSlot|null find($id, $lockMode = null, $lockVersion = null)
- * @method PassengerSlot|null findOneBy(array $criteria, array $orderBy = null)
- * @method PassengerSlot[]    findAll()
- * @method PassengerSlot[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PassengerPlace|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PassengerPlace|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PassengerPlace[]    findAll()
+ * @method PassengerPlace[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PassengerSlotRepository extends ServiceEntityRepository
+class PassengerPlaceRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, PassengerSlot::class);
+        parent::__construct($registry, PassengerPlace::class);
     }
 
     // /**
-    //  * @return PassengerSlot[] Returns an array of PassengerSlot objects
+    //  * @return PassengerPlace[] Returns an array of PassengerPlace objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PassengerSlotRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PassengerSlot
+    public function findOneBySomeField($value): ?PassengerPlace
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
