@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\PlaneRepository")
  */
-class Plane
+class Airplane
 {
     /**
      * @ORM\Id()
@@ -21,22 +21,22 @@ class Plane
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="planes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="airplanes")
      */
     private $company;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\AirStrip", inversedBy="planes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\AirStrip", inversedBy="airplanes")
      */
     private $airstrip;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Staff", mappedBy="plane")
+     * @ORM\OneToMany(targetEntity="App\Entity\Staff", mappedBy="airplane")
      */
     private $staff;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="planes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="airplanes")
      */
     private $airport;
 
@@ -86,7 +86,7 @@ class Plane
     {
         if (!$this->staff->contains($staff)) {
             $this->staff[] = $staff;
-            $staff->setPlane($this);
+            $staff->setAirplane($this);
         }
 
         return $this;
@@ -97,8 +97,8 @@ class Plane
         if ($this->staff->contains($staff)) {
             $this->staff->removeElement($staff);
             // set the owning side to null (unless already changed)
-            if ($staff->getPlane() === $this) {
-                $staff->setPlane(null);
+            if ($staff->getAirplane() === $this) {
+                $staff->setAirplane(null);
             }
         }
 

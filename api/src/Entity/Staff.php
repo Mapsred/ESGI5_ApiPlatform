@@ -19,23 +19,23 @@ class Staff
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Plane", inversedBy="staff")
+     * @ORM\ManyToOne(targetEntity="Airplane", inversedBy="staff")
      */
-    private $plane;
+    private $airplane;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPlane(): ?Plane
+    public function getAirplane(): ?Airplane
     {
-        return $this->plane;
+        return $this->airplane;
     }
 
-    public function setPlane(?Plane $plane): self
+    public function setAirplane(?Airplane $airplane): self
     {
-        $this->plane = $plane;
+        $this->airplane = $airplane;
 
         return $this;
     }

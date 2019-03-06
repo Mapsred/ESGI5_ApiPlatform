@@ -26,9 +26,9 @@ class AirStrip
     private $label;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Plane", mappedBy="airstrip")
+     * @ORM\OneToMany(targetEntity="Airplane", mappedBy="airstrip")
      */
-    private $planes;
+    private $airplanes;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="airstrips")
@@ -37,7 +37,7 @@ class AirStrip
 
     public function __construct()
     {
-        $this->planes = new ArrayCollection();
+        $this->airplanes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,27 +58,27 @@ class AirStrip
     }
 
     /**
-     * @return Collection|Plane[]
+     * @return Collection|Airplane[]
      */
-    public function getPlanes(): Collection
+    public function getAirplanes(): Collection
     {
-        return $this->planes;
+        return $this->airplanes;
     }
 
-    public function addPlane(Plane $plane): self
+    public function addPlane(Airplane $plane): self
     {
-        if (!$this->planes->contains($plane)) {
-            $this->planes[] = $plane;
+        if (!$this->airplanes->contains($plane)) {
+            $this->airplanes[] = $plane;
             $plane->setAirstrip($this);
         }
 
         return $this;
     }
 
-    public function removePlane(Plane $plane): self
+    public function removePlane(Airplane $plane): self
     {
-        if ($this->planes->contains($plane)) {
-            $this->planes->removeElement($plane);
+        if ($this->airplanes->contains($plane)) {
+            $this->airplanes->removeElement($plane);
             // set the owning side to null (unless already changed)
             if ($plane->getAirstrip() === $this) {
                 $plane->setAirstrip(null);

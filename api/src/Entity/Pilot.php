@@ -24,7 +24,7 @@ class Pilot
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Plane", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Airplane", cascade={"persist", "remove"})
      */
     private $plane;
 
@@ -45,12 +45,12 @@ class Pilot
         return $this;
     }
 
-    public function getPlane(): ?Plane
+    public function getPlane(): ?Airplane
     {
         return $this->plane;
     }
 
-    public function setPlane(?Plane $plane): self
+    public function setPlane(?Airplane $plane): self
     {
         $this->plane = $plane;
 
