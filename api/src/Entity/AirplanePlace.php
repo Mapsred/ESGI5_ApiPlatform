@@ -24,12 +24,12 @@ class AirplanePlace
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Flight", inversedBy="airplanePlaces")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Flight", cascade={"persist", "remove"}, inversedBy="airplanePlaces")
      */
     private $flight;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PlaceCategory", inversedBy="airplanePlaces")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PlaceCategory", cascade={"persist", "remove"}, inversedBy="airplanePlaces")
      */
     private $placeCategory;
 

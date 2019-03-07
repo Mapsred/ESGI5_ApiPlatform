@@ -6,9 +6,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"flight_read"}},
+ *     denormalizationContext={"groups"={"flight_write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\FlightRepository")
  */
 class Flight
@@ -22,33 +26,39 @@ class Flight
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"flight_write", "flight_read"})
      */
     private $departure;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"flight_write", "flight_read"})
      */
     private $destination;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
+     * @Groups({"flight_write", "flight_read"})
      */
     private $arrivalDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Airplane", inversedBy="flights")
+     * @Groups({"flight_write", "flight_read"})
      */
     private $airplane;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AirplanePlace", mappedBy="flight")
+     * @Groups({"flight_read"})
      */
     private $airplanePlaces;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
+     * @Groups({"flight_write", "flight_read"})
      */
     private $departureDate;
 
