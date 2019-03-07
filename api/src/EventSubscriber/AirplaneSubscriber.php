@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class AirplaneSubscriber implements EventSubscriberInterface
 {
@@ -40,7 +41,9 @@ class AirplaneSubscriber implements EventSubscriberInterface
                 'airport' => $entity->getAirport()
             ]);
 
-            $entity->setAirstrip($airstrip);
+            if (null !== $airstrip) {
+                $entity->setAirstrip($airstrip);
+            }
         }
     }
 
@@ -58,10 +61,10 @@ class AirplaneSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'kernel.view' => [
-                'preValidate', EventPriorities::PRE_VALIDATE,
-                'preWrite', EventPriorities::PRE_WRITE
-            ],
+            KernelEvents::VIEW => [
+                ['preValidate', EventPriorities::PRE_VALIDATE],
+                ['preWrite', EventPriorities::PRE_WRITE]
+            ]
         ];
     }
 }
