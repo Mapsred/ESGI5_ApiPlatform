@@ -34,25 +34,21 @@ class AirplaneModelPlaceCategoryFixtures extends Fixture implements OrderedFixtu
     }
 
     private function getRepartitionPlacesByClass(int $nPlaces, int $nClasses) :array {
-        $resRepartition = floor($nPlaces / $nClasses);
-        $modulo = $nPlaces % $nClasses;
-        $ret = [];
-        for($i = 1; $i < $nClasses; $i++) {
-            $ret[$i] = $resRepartition;
-        }
-        if(!empty($ret)) {
-            $index = 1;
-            while($modulo > 0) {
-                if(!isset($ret[$index])){
-                    $index = 1;
-                }
-                $ret[$index] += 1;
-                $index++;
-                $modulo--;
-            }
+
+        $res = [];
+        $currClass = 1;
+
+        while ($nPlaces > 0) {
+            if($currClass > $nClasses)
+                $currClass = 1;
+
+            $res[$currClass] = isset($res[$currClass]) ? $res[$currClass] + 1 : 1;
+
+            $nPlaces--;
+            $currClass++;
         }
 
-        return $ret;
+        return $res;
     }
 
     public function getOrder()

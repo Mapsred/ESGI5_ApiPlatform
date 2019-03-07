@@ -18,7 +18,7 @@ class AirplaneModelFixtures extends Fixture implements OrderedFixtureInterface
         for($i = 0; $i < $nModels; $i++) {
             $model = new AirplaneModel();
             $nameLetter = $this->getRandomLetterFromString($alphabet, true);
-            $nameNumber = $faker->randomNumber(3);
+            $nameNumber = $faker->randomNumber(3, true);
             $model->setName($nameLetter . '-' .  $nameNumber);
             $model->setLength(rand(20, 80));
             $model->setHeight(rand(5, 30));
