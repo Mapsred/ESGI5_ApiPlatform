@@ -7,12 +7,22 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
 
 /**
  * @ApiResource(
  *     normalizationContext={"groups"={"flight_read"}},
  *     denormalizationContext={"groups"={"flight_write"}}
  * )
+ * @ApiFilter(DateFilter::class, properties={"arrivalDate", "departureDate"})
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "departure": "ipartial",
+ *     "destination": "ipartial",
+ *     "airplane": "exact",
+ *     "airplane.airplaneModel": "exact",
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\FlightRepository")
  */
 class Flight

@@ -2,18 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
  * @ApiResource(
  *     normalizationContext={"groups"={"airplane_read"}},
  *     denormalizationContext={"groups"={"airplane_write"}}
  * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "company": "exact",
+ *     "airport": "exact",
+ *     "airplaneModel": "exact",
+ * })
+ * @ApiFilter(OrderFilter::class, properties={"airport": "ASC", "pilot": "ASC"})
  * @ORM\Entity(repositoryClass="App\Repository\PlaneRepository")
  */
 class Airplane
