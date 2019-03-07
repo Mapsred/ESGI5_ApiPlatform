@@ -6,7 +6,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"},
+ *     itemOperations={"get", "delete"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\AirplaneModelPlaceCategoryRepository")
  */
 class AirplaneModelPlaceCategory

@@ -14,7 +14,8 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 /**
  * @ApiResource(
  *     normalizationContext={"groups"={"flight_read"}},
- *     denormalizationContext={"groups"={"flight_write"}}
+ *     denormalizationContext={"groups"={"flight_write"}},
+ *     itemOperations={"get", "put"}
  * )
  * @ApiFilter(DateFilter::class, properties={"arrivalDate", "departureDate"})
  * @ApiFilter(SearchFilter::class, properties={
