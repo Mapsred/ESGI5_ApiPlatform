@@ -29,6 +29,7 @@ class Passenger
      * @ORM\Column(type="string", length=10)
      * @Groups({"passenger_write", "passenger_read"})
      * @Assert\Choice({"Homme", "Femme"})
+     * @Groups({"passenger_write", "passenger_read"})
      */
     private $gender;
 
@@ -36,6 +37,7 @@ class Passenger
      * @ORM\Column(type="string", length=255)
      * @Groups({"passenger_write", "passenger_read"})
      * @Assert\NotBlank()
+     * @Groups({"passenger_write", "passenger_read"})
      */
     private $firstname;
 
@@ -43,6 +45,7 @@ class Passenger
      * @ORM\Column(type="string", length=255)
      * @Groups({"passenger_write", "passenger_read"})
      * @Assert\NotBlank()
+     * @Groups({"passenger_write", "passenger_read"})
      */
     private $lastname;
 
@@ -50,6 +53,7 @@ class Passenger
      * @ORM\Column(type="smallint")
      * @Groups({"passenger_write", "passenger_read"})
      * @Assert\GreaterThan(12)
+     * @Groups({"passenger_write", "passenger_read"})
      */
     private $age;
 
@@ -57,6 +61,7 @@ class Passenger
      * @ORM\Column(type="string", length=255)
      * @Groups({"passenger_write", "passenger_read"})
      * @Assert\NotBlank()
+     * @Groups({"passenger_write", "passenger_read"})
      */
     private $address;
 
