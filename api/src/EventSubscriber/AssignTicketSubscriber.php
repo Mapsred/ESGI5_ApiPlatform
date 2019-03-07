@@ -2,9 +2,9 @@
 
 namespace App\EventSubscriber;
 
-
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Passenger;
+use App\Utils\TicketBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,26 +17,32 @@ class AssignTicketSubscriber implements EventSubscriberInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    /**
+     * @var TicketBuilder $ticketBuilder
+     */
+    private $ticketBuilder;
+
+    public function __construct(EntityManagerInterface $entityManager, TicketBuilder $ticketBuilder)
     {
         $this->entityManager = $entityManager;
+        $this->ticketBuilder = $ticketBuilder;
     }
     public static function getSubscribedEvents()
     {
         return [
             'kernel.view' => [
-                'preWrite', EventPriorities::PRE_WRITE
+                'postWrite', EventPriorities::POST_WRITE
             ],
         ];
     }
 
-    public function preWrite(GetResponseForControllerResultEvent $event)
+    public function postWrite(GetResponseForControllerResultEvent $event)
     {
         /** @var Passenger $entity */
         $entity = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
         if ($entity instanceof Passenger && $method === Request::METHOD_POST) {
-
+            $this->ticketBuilder->build($entity);
         }
     }
 }

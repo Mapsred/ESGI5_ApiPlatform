@@ -20,7 +20,7 @@ class Ticket
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Assert\GreaterThan(10)
      */
     private $price;
