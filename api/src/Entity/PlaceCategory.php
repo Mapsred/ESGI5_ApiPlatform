@@ -6,9 +6,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"place_category_read"}},
+ *     denormalizationContext={"groups"={"place_category_write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PlaceCategoryRepository")
  */
 class PlaceCategory
@@ -22,21 +26,25 @@ class PlaceCategory
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"place_category_write", "place_category_read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"place_category_write", "place_category_read"})
      */
     private $rank;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AirplaneModelPlaceCategory", mappedBy="placeCategory")
+     * @Groups({"place_category_read"})
      */
     private $airplaneModelPlaceCategories;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AirplanePlace", mappedBy="placeCategory")
+     * @Groups({"place_category_read"})
      */
     private $airplanePlaces;
 

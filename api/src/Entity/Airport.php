@@ -6,9 +6,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"airport_read"}},
+ *     denormalizationContext={"groups"={"airport_write"}} 
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\AirportRepository")
  */
 class Airport
@@ -22,21 +26,25 @@ class Airport
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AirStrip", mappedBy="airport")
+     * @Groups({"airport_read"})
      */
     private $airstrips;
 
     /**
      * @ORM\OneToMany(targetEntity="Airplane", mappedBy="airport")
+     * @Groups({"airport_read"})
      */
     private $airplanes;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"airport_write", "airport_read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"airport_write", "airport_read"})
      */
     private $location;
 

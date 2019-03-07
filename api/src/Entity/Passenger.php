@@ -6,10 +6,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"passenger_read"}},
+ *     denormalizationContext={"groups"={"passenger_write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PassengerRepository")
  */
 class Passenger
@@ -23,36 +27,42 @@ class Passenger
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Groups({"passenger_write", "passenger_read"})
      * @Assert\Choice({"Homme", "Femme"})
      */
     private $gender;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"passenger_write", "passenger_read"})
      * @Assert\NotBlank()
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"passenger_write", "passenger_read"})
      * @Assert\NotBlank()
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Groups({"passenger_write", "passenger_read"})
      * @Assert\GreaterThan(12)
      */
     private $age;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"passenger_write", "passenger_read"})
      * @Assert\NotBlank()
      */
     private $address;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="passenger")
+     * @Groups({"passenger_read"})
      */
     private $tickets;
 
