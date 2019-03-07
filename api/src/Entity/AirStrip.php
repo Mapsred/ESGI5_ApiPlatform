@@ -33,7 +33,7 @@ class AirStrip
     private $airport;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Airplane", inversedBy="airstrip", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Airplane", cascade={"persist", "remove"}, inversedBy="airstrip")
      */
     private $airplane;
 

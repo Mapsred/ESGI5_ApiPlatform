@@ -46,13 +46,7 @@ class Airplane
     private $airport;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Pilot", cascade={"persist", "remove"}, inversedBy="airplane")
-     * @Groups({"airplane_read"})
-     */
-    private $pilot;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="airplane")
+     * @ORM\OneToMany(targetEntity="App\Entity\Flight", cascade={"persist", "remove"}, mappedBy="airplane")
      * @Groups({"airplane_read"})
      */
     private $flights;
@@ -65,11 +59,17 @@ class Airplane
     private $airplaneModel;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\AirStrip", mappedBy="airplane", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\AirStrip", cascade={"persist", "remove"}, mappedBy="airplane")
      * @Groups({"airplane_read"})
      * @Assert\NotNull(message="No Airstrip available in this Airport")
      */
     private $airstrip;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Pilot", cascade={"persist", "remove"}, mappedBy="airplane")
+     * @Groups({"airplane_read"})
+     */
+    private $pilot;
 
     /**
      * Airplane constructor.
@@ -166,25 +166,6 @@ class Airplane
     }
 
     /**
-     * @return Pilot
-     */
-    public function getPilot():? Pilot
-    {
-        return $this->pilot;
-    }
-
-    /**
-     * @param Pilot $pilot
-     * @return Airplane
-     */
-    public function setPilot(?Pilot $pilot): Airplane
-    {
-        $this->pilot = $pilot;
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Flight[]
      */
     public function getFlights(): Collection
@@ -240,6 +221,24 @@ class Airplane
         $newAirplane = $airstrip === null ? null: $this;
         if ($newAirplane !== $airstrip->getAirplane()) {
             $airstrip->setAirplane($newAirplane);
+        }
+
+        return $this;
+    }
+
+    public function getPilot(): ?Pilot
+    {
+        return $this->pilot;
+    }
+
+    public function setPilot(?Pilot $pilot): self
+    {
+        $this->pilot = $pilot;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newAirplane = $pilot === null ? null : $this;
+        if ($newAirplane !== $pilot->getAirplane()) {
+            $pilot->setAirplane($newAirplane);
         }
 
         return $this;
