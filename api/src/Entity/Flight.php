@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\Constraints\AvailableFlightDateRange;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
  * @ApiResource(
  *     normalizationContext={"groups"={"flight_read"}},
  *     denormalizationContext={"groups"={"flight_write"}},
- *     itemOperations={"get", "put"}
+ *     itemOperations={"get", "delete"}
  * )
  * @ApiFilter(DateFilter::class, properties={"arrivalDate", "departureDate"})
  * @ApiFilter(SearchFilter::class, properties={
@@ -25,6 +26,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
  *     "airplane.airplaneModel": "exact",
  * })
  * @ORM\Entity(repositoryClass="App\Repository\FlightRepository")
+ * @AvailableFlightDateRange
  */
 class Flight
 {
@@ -222,5 +224,4 @@ class Flight
 
         return $this;
     }
-
 }
