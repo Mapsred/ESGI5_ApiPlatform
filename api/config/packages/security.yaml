@@ -18,10 +18,13 @@ security:
             anonymous: true
             json_login:
                 check_path:               /login_check
-#                username:                 /login_check
-#                password:                 /login_check
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+
+        refresh:
+            pattern:  ^/token/refresh
+            stateless: true
+            anonymous: true
 
         api:
             pattern:   ^/
@@ -43,6 +46,7 @@ security:
     # Change these rules to adapt them to your needs
     - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/users, role: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
+    - { path: ^/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/$, role: IS_AUTHENTICATED_ANONYMOUSLY }
     
     # API basic path
