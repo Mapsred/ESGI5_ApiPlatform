@@ -19,32 +19,44 @@ class FlightRepository extends ServiceEntityRepository
         parent::__construct($registry, Flight::class);
     }
 
-    // /**
-    //  * @return Flight[] Returns an array of Flight objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findConcurrentFlight(Flight $flight)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $parameters = [
+            'departure_date' => $flight->getDepartureDate(),
+            'arrival_date' => $flight->getArrivalDate(),
+            'airplane' => $flight->getAirplane()
+        ];
 
-    /*
-    public function findOneBySomeField($value): ?Flight
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
+        $qb = $this->createQueryBuilder('q')
+            ->select('COUNT(q.id)')
+            ->where('q.airplane = :airplane');
+
+        if ($flight->getId()) {
+            $parameters['id'] = $flight->getId();
+            $qb->andWhere('q.id != :id');
+        }
+
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->andX(
+                    $qb->expr()->gte('q.departureDate', ':departure_date'),
+                    $qb->expr()->lte('q.arrivalDate', ':arrival_date')
+                ),
+
+                $qb->expr()->andX(
+                    $qb->expr()->lte('q.departureDate', ':departure_date'),
+                    $qb->expr()->gte('q.arrivalDate', ':departure_date')
+                ),
+
+                $qb->expr()->andX(
+                    $qb->expr()->lte('q.departureDate', ':arrival_date'),
+                    $qb->expr()->gte('q.arrivalDate', ':arrival_date')
+                )
+            )
+        )->setParameters($parameters);
+
+        return $qb
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
 }
