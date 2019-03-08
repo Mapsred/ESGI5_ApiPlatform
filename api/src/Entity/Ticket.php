@@ -7,7 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     itemOperations={
+ *          "get",
+ *          "put",
+ *          "delete",
+ *          "pdf"={
+ *              "method"="GET",
+ *              "path"="/tickets/{id}/pdf",
+ *              "requirements"={"id"="\d+"},
+ *              "controller"=App\Controller\PDFController::class,
+ *              "formats"={"pdf"={"application/pdf"}}
+ *          }
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
  */
 class Ticket
