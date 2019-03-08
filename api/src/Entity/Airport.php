@@ -11,7 +11,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *     normalizationContext={"groups"={"airport_read"}},
- *     denormalizationContext={"groups"={"airport_write"}} 
+ *     denormalizationContext={"groups"={"airport_write"}},
+ *     collectionOperations={
+ *         "post"={"access_control"="is_granted('airport_create', object)"},
+ *         "get"
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\AirportRepository")
  */

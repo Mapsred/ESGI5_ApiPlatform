@@ -27,6 +27,14 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(type="json_array")
+     * @Groups({"user_read"})
+     */
+    private $roles = ["ROLE_USER"];
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"user_write", "user_read"})
      */
@@ -54,11 +62,71 @@ class User implements UserInterface
     }
 
     /**
-     * @return array The user roles
+     * @param $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return in_array($role, $this->getRoles());
+    }
+
+    /**
+     * Get roles
+     *
+     * @return array
      */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @param $role
+     * @return bool
+     */
+    public function removeRole($role)
+    {
+        $key = array_search($role, $this->roles, true);
+
+        if ($key === false) {
+            return false;
+        }
+
+        unset($this->roles[$key]);
+
+        return true;
+    }
+
+    /**
+     * @param $role
+     * @return User
+     */
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+        $this->roles = array_unique($this->roles);
+
+        return $this;
     }
 
     /**
