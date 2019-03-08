@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Airplane[]    findAll()
  * @method Airplane[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PlaneRepository extends ServiceEntityRepository
+class AirplaneRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {

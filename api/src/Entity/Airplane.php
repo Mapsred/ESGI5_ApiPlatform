@@ -23,7 +23,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *     "airplaneModel": "exact",
  * })
  * @ApiFilter(OrderFilter::class, properties={"airport": "ASC", "pilot": "ASC"})
- * @ORM\Entity(repositoryClass="App\Repository\PlaneRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AirPlaneRepository")
  */
 class Airplane
 {
