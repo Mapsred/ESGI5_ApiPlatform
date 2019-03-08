@@ -2,9 +2,7 @@
 
 namespace App\Utils;
 
-use App\Entity\Airplane;
 use App\Entity\AirplanePlace;
-use App\Entity\Flight;
 use App\Entity\Ticket;
 use App\Entity\Passenger;
 use App\Exception\FlightNotFoundException;
@@ -52,78 +50,25 @@ class PassengerBuilder
     private function createAndAssignTicket(Passenger $passenger)
     {
         $ticket = new Ticket();
-        $ticket->setPassenger($passenger);
-        /**
-         * @var Airplane $airplane
-         */
-        $flight = $this->findOneFlight();
 
-        $airplanePlaces = $flight->getAirplanePlaces()->toArray();
-        /**
-         * @var AirplanePlace $place
-         */
-        foreach ($airplanePlaces as $place) {
-            if(is_null($place->getTicket())){
-                $place->setTicket($ticket);
-                $price = $place->getPlaceCategory()->getRank() * self::PRICE_CATEGORY_PLACE_COEF;
-                $ticket->setPrice($price);
-                break;
-            }
+        $place = $this->manager->getRepository(AirplanePlace::class)->findOneBy([
+            'ticket' => null
+        ]);
+
+        if (null === $place) {
+            throw new FlightNotFoundException('No place available.');
         }
 
-        $this->manager->persist($ticket);
-    }
-
-    private function findOneFlight(): Flight
-    {
-        $flights = $this->manager->getRepository(Flight::class)->findAll();
-
-        if (empty($flights)) {
+        if (null === $place->getFlight()) {
             throw new FlightNotFoundException('No flight has been created.');
         }
 
-        /**
-         * @var Airplane $flight
-         */
-        foreach ($flights as $key => $flight) {
-            if (!$this->hasFreePlace($flight)) {
-                unset($flights[$key]);
-            }
-        }
+        $price = $place->getPlaceCategory()->getRank() * self::PRICE_CATEGORY_PLACE_COEF;
+        $ticket
+            ->setPassenger($passenger)
+            ->setPrice($price)
+            ->setAirplanePlace($place);
 
-        if (empty($flights)) {
-            throw new FlightNotFoundException('No flight has free place.');
-        }
-
-        $randKey = array_rand($flights);
-
-        /**
-         * @var Airplane $airplane
-         */
-        return $flights[$randKey];
-
-    }
-
-    /**
-     * Check if there is at least one free place for a flight
-     * @param Flight $flight
-     * @return bool
-     */
-    private function hasFreePlace(Flight $flight): bool
-    {
-        $places = $flight->getAirplanePlaces();
-
-        if (!empty($places)) {
-            /**
-             * AirplanePlace $places
-             */
-            foreach ($places as $place) {
-                $ticket = $place->getTicket();
-                if (is_null($ticket)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        $this->manager->persist($ticket);
     }
 }
