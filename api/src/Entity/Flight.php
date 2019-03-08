@@ -7,6 +7,7 @@ use App\Validator\Constraints\AvailableFlightDateRange;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
@@ -53,6 +54,7 @@ class Flight
      * @var \DateTime
      * @ORM\Column(type="datetime")
      * @Groups({"flight_write", "flight_read"})
+     * @Assert\GreaterThanOrEqual(propertyPath="departureDate")
      */
     private $arrivalDate;
 
@@ -72,6 +74,7 @@ class Flight
      * @var \DateTime
      * @ORM\Column(type="datetime")
      * @Groups({"flight_write", "flight_read"})
+     * @Assert\LessThanOrEqual(propertyPath="arrivalDate")
      */
     private $departureDate;
 
