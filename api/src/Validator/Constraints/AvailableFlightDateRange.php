@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class AvailableFlightDateRange extends Constraint
 {
-    public $message = 'This airplane has ever a flight at this date';
+    public $message = 'This airplane already has a flight during this period';
 
     public function getTargets()
     {

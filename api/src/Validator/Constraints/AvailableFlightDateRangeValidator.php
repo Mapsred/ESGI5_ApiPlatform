@@ -28,8 +28,6 @@ final class AvailableFlightDateRangeValidator extends ConstraintValidator
         $flightRepository = $this->manager->getRepository(Flight::class);
         $concurrentFlights = $flightRepository->findConcurrentFlight($value);
 
-        var_dump($concurrentFlights);
-        exit;
         if($concurrentFlights > 0){
             $this->context->buildViolation($constraint->message)->addViolation();
         }

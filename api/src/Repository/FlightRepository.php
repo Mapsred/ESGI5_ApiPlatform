@@ -19,7 +19,8 @@ class FlightRepository extends ServiceEntityRepository
         parent::__construct($registry, Flight::class);
     }
 
-    public function findConcurrentFlight(Flight $flight) {
+    public function findConcurrentFlight(Flight $flight)
+    {
         $parameters = [
             'departure_date' => $flight->getDepartureDate(),
             'arrival_date' => $flight->getArrivalDate(),
@@ -30,20 +31,31 @@ class FlightRepository extends ServiceEntityRepository
             ->select('COUNT(q.id)')
             ->where('q.airplane = :airplane');
 
-        if($flight->getId()){
+        if ($flight->getId()) {
             $parameters['id'] = $flight->getId();
             $qb->andWhere('q.id != :id');
         }
 
-        return $qb->andWhere('q.departureDate >= :departure_date')
-            ->andWhere('q.departureDate <= :arrival_date')
-            ->orWhere('q.arrivalDate >= :departure_date')
-            ->andWhere('q.arrivalDate <= :arrival_date')
-            ->orWhere('q.departureDate <= :departure_date')
-            ->andWhere('q.arrivalDate >= :departure_date')
-            ->orWhere('q.departureDate <= :arrival_date')
-            ->andWhere('q.arrivalDate >= :arrival_date')
-            ->setParameters($parameters)
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->andX(
+                    $qb->expr()->gte('q.departureDate', ':departure_date'),
+                    $qb->expr()->lte('q.arrivalDate', ':arrival_date')
+                ),
+
+                $qb->expr()->andX(
+                    $qb->expr()->lte('q.departureDate', ':departure_date'),
+                    $qb->expr()->gte('q.arrivalDate', ':departure_date')
+                ),
+
+                $qb->expr()->andX(
+                    $qb->expr()->lte('q.departureDate', ':arrival_date'),
+                    $qb->expr()->gte('q.arrivalDate', ':arrival_date')
+                )
+            )
+        )->setParameters($parameters);
+
+        return $qb
             ->getQuery()
             ->getSingleScalarResult();
     }
