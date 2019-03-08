@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
  * Class TicketBuilder
  * @package App\Utils
  */
-class TicketBuilder
+class PassengerBuilder
 {
     /**
      * Coefficient to calculate the ticket place by considering place rank (rank*coef)

@@ -4,13 +4,13 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Passenger;
-use App\Utils\TicketBuilder;
+use App\Utils\PassengerBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 
-class AssignTicketSubscriber implements EventSubscriberInterface
+class PassengerSubscriber implements EventSubscriberInterface
 {
     /**
      * @var EntityManagerInterface $entityManager
@@ -18,11 +18,11 @@ class AssignTicketSubscriber implements EventSubscriberInterface
     private $entityManager;
 
     /**
-     * @var TicketBuilder $ticketBuilder
+     * @var PassengerBuilder $ticketBuilder
      */
     private $ticketBuilder;
 
-    public function __construct(EntityManagerInterface $entityManager, TicketBuilder $ticketBuilder)
+    public function __construct(EntityManagerInterface $entityManager, PassengerBuilder $ticketBuilder)
     {
         $this->entityManager = $entityManager;
         $this->ticketBuilder = $ticketBuilder;
