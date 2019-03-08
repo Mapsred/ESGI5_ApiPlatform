@@ -2,7 +2,6 @@
 
 namespace App\Validator\Constraints;
 
-use App\Entity\Airplane;
 use App\Entity\Flight;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
